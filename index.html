@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CSS Gradient Generator</title>
+</head>
+<body>
+	<style>
+		body {text-align: center; background: linear-gradient(to right, rgb(255, 128, 128), rgb(255, 210, 128)); font-family: 'Montserrat', 'Arial', sans-serif;}
+		.wrap { background: rgba(0,0,0, 0.4); padding: 20px 60px; border-radius: 10px; display: block; margin: 160px auto 0; max-width: 650px;}
+		h1 {color: #fff}
+		h2 {font-size: 14px; color: #fff; font-weight: 300;}
+		.input-wrap {display: inline-block; border-radius: 30px; overflow: hidden; width: 140px; height: 45px; 
+		text-align: center; display: inline-flex; justify-content: space-around; align-items: center; padding: 4px 4px; margin: 0 6px 26px; position: relative; box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.15);}
+		.wrap1 {background-color: #ff8080}
+		.wrap2 {background-color: #ffd280}
+		.input-wrap .color1hex, .input-wrap .color2hex {z-index: 999; text-align: center; background-color: transparent; color: white; font-family: 'Montserrat', 'Arial', sans-serif; font-size: 16px; border: none; outline: none; width: 60%; margin-right: -10px; text-shadow: 1px 1px rgba(0, 0, 0, 0.4)}
+		.color1, .color2 {width: 90px; height: 90px; background: none; border: none; outline: none; cursor: pointer; padding: 0; margin: 0; position: absolute; left: -10px; top: -10px;}
+		.pick {border-radius: 100%; overflow: hidden; height: 34px; width: 34px; position: relative; border: 3px solid rgba(0,0,0,0.1); }
+		i {position: absolute; z-index: 999; margin: auto; left: 0; right: 0; top: 4px; opacity: 0.2; pointer-events: none;}
+		code {display: block; color: #fff; background: rgba(0,0,0,.4); padding: 10px; border-radius: 3px; border-left: 3px solid #2196F3;}
+		.err {color: #fff;  background: rgba(0,0,0, 0.4); display: inline-block; padding: 10px; border-radius: 6px; margin-top: 20px;}
+		p {margin: 0;}
+		.hide {opacity: 0; transition: all 0.2s cubic-bezier(0, 0, 0.51, 1.44); transform: translatey(20px)}
+		.show {opacity: 1; transition: all 0.2s cubic-bezier(0, 0, 0.51, 1.44);}
+	</style>
+	
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<div class="wrap">
+	  <h1>Gradient Gen</h1>
+	  <div class="input-wrap wrap1">
+	    <input class="color1hex" maxlength="7" type="text" value="#ff8080">
+	    <div class="pick pick2">
+	      <i class="material-icons">colorize</i>
+	      <input type="color" value="#ff8080" class="color1">
+	    </div>
+	  </div>
+	  <div class="input-wrap wrap2">
+	    <input class="color2hex" maxlength="7" type="text" value="#ffd280">
+	    <div class="pick pick2">
+	      <i class="material-icons">colorize</i>
+	      <input type="color" value="#ffd280" class="color2">      
+	    </div>
+	  </div>
+	  <code id="rgb">background: linear-gradient(to right, #ff8080, #ffd280);</code>
+	</div>
+	<div class="err hide">
+	  <p class="">The hex codes need to have the "#" and 6 numbers</p>
+	</div>
+
+
+	<script>
+		const output = document.querySelector('code');
+		const color1 = document.querySelector('.color1');
+		const color2 = document.querySelector('.color2');
+		const body = document.querySelector('body');
+		let hex1 = document.querySelector('.color1hex');
+		let hex2 = document.querySelector('.color2hex');
+		const inpWrap1 = document.querySelector('.wrap1');
+		const inpWrap2 = document.querySelector('.wrap2');
+
+
+		const setGradient = () => {
+			body.style.background = `linear-gradient(to right, ${color1.value}, ${color2.value})`;
+			output.textContent = body.style.background + ";";
+		  hex1.value = color1.value;
+		  hex2.value = color2.value;
+		  inpWrap1.style.background = color1.value;
+		  inpWrap2.style.background = color2.value;
+		}
+
+		const setHex = () => {
+		  const div = document.querySelector('.err');
+		  if (hex1.value.length === 7 && hex2.value.length === 7) {
+		  	color1.value = hex1.value;
+		    color2.value = hex2.value;
+		    inpWrap1.style.background =  color1.value;
+		    inpWrap2.style.background =  color2.value;
+		    body.style.background = `linear-gradient(to right, ${color1.value}, ${color2.value})`;
+		    output.textContent = body.style.background + ";";
+		    div.classList.remove('show');
+		    div.classList.add('hide');
+		  } else if (hex1.value.length < 7 || hex2.value.length < 7) {
+		 		div.classList.remove('hide');
+		    div.classList.add('show');
+		  }
+		}
+
+
+		hex1.addEventListener('input', setHex)
+		hex2.addEventListener('input', setHex)
+		color1.addEventListener('input', setGradient)
+		color2.addEventListener('input', setGradient)
+
+	</script>
+	
+</body>
+</html>
